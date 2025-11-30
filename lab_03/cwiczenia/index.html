@@ -2,64 +2,16 @@
 <html lang="pl">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Lab 03 - Ćwiczenia</title>
+    <title>Lab 03 - Menu</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <section id="ex1">
-      <h2>Ćwiczenie 1: Stoper</h2>
-      <div id="stopwatch-display">0s</div>
-      <div class="controls">
-        <button id="btn-start">Start</button>
-        <button id="btn-stop">Stop</button>
-        <button id="btn-reset">Reset</button>
-      </div>
-    </section>
-
-    <hr />
-
-    <section id="ex2">
-      <h2>Ćwiczenie 2: Generator Haseł</h2>
-      <label
-        >Min. długość: <input type="number" id="pass-min" value="8" /></label
-      ><br />
-      <label
-        >Max. długość: <input type="number" id="pass-max" value="12" /></label
-      ><br />
-      <label><input type="checkbox" id="pass-upper" /> Wielkie litery?</label
-      ><br />
-      <label><input type="checkbox" id="pass-special" /> Znaki specjalne?</label
-      ><br />
-      <button id="btn-generate">Wygeneruj hasło</button>
-    </section>
-
-    <hr />
-
-    <section id="ex3">
-      <h2>Ćwiczenie 3: Lista Produktów</h2>
-
-      <div class="filters">
-        <input type="text" id="search-input" placeholder="Szukaj produktu..." />
-        <select id="sort-select">
-          <option value="original">Oryginalna kolejność</option>
-          <option value="asc">Rosnąco (A-Z)</option>
-          <option value="desc">Malejąco (Z-A)</option>
-        </select>
-      </div>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Zdjęcie</th>
-            <th>Tytuł</th>
-            <th>Opis</th>
-          </tr>
-        </thead>
-        <tbody id="products-table-body"></tbody>
-      </table>
-    </section>
-
-    <script src="script.js"></script>
+    <h1>Ćwiczenia:</h1>
+    <div class="menu">
+      <a href="cw1.html"><button>Ćwiczenie 1: Stoper</button></a><br /><br />
+      <a href="cw2.html"><button>Ćwiczenie 2: Generator Haseł</button></a
+      ><br /><br />
+      <a href="cw3.html"><button>Ćwiczenie 3: Lista Produktów (API)</button></a>
+    </div>
   </body>
 </html>

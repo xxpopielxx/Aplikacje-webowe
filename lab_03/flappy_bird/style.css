@@ -1,0 +1,33 @@
+/*reset domyślnych marginesów */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #333;
+  font-family: "Arial", sans-serif;
+
+  /*centrowanie */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+  background-color: #70c5ce;
+  border: 4px solid #fff;
+  border-radius: 4px;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.7); /* Większy cień dla efektu */
+  cursor: pointer;
+
+  /*90% wysokości*/
+  height: 90vh;
+
+  /*proporcje (320 / 480 = 2 / 3)*/
+  aspect-ratio: 2 / 3;
+
+  /*ostrość pikseli */
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+}
