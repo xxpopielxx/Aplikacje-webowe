@@ -10,6 +10,10 @@ coverage/
 build/
 dist/
 
+#database
+*.db
+*.sqlite
+
 # Misc
 .DS_Store
 .env
