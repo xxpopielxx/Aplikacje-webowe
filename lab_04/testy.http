@@ -1,0 +1,226 @@
+### SERWIS 1: Dodaj książkę
+POST http://localhost:3001/api/books
+Content-Type: application/json
+
+{
+  "title": "Wiedźmin: Ostatnie Życzenie",
+  "author": "Andrzej Sapkowski",
+  "year": 1993
+}
+
+### SERWIS 1: Dodaj drugą książkę
+POST http://localhost:3001/api/books
+Content-Type: application/json
+
+{
+  "title": "Harry Potter i Kamień Filozoficzny",
+  "author": "J.K. Rowling",
+  "year": 1997
+}
+
+### SERWIS 1: Pobierz wszystkie książki
+GET http://localhost:3001/api/books
+
+### SERWIS 1: Pobierz jedną książkę (ID 1)
+GET http://localhost:3001/api/books/1
+
+### SERWIS 1: Usuń książkę (ID 1)
+DELETE http://localhost:3001/api/books/1
+
+
+### SERWIS 2: Dodaj zamówienie (Książka o ID 1 istnieje,nie powinno przejść bo bez tokenu)
+POST http://localhost:3002/api/orders
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "bookId": 1,
+  "quantity": 2
+}
+
+### SERWIS 2: Próba zamówienia nieistniejącej książki (ID 999) - Powinien być BŁĄD 404
+POST http://localhost:3002/api/orders
+Content-Type: application/json
+
+{
+  "userId": 1,
+  "bookId": 999,
+  "quantity": 1
+}
+
+### SERWIS 2: Pobierz zamówienia użytkownika 1
+GET http://localhost:3002/api/orders/1
+
+### SERWIS 3: Rejestracja
+POST http://localhost:3003/api/register
+Content-Type: application/json
+
+{
+  "email": "student@wsei.pl",
+  "password": "moje_tajne_haslo"
+}
+
+### SERWIS 3: Logowanie (Odbieramy token)
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "email": "student@wsei.pl",
+  "password": "moje_tajne_haslo"
+}
+
+### SERWIS 1: Próba dodania z tokenem ksiązki
+POST http://localhost:3001/api/books
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoic3R1ZGVudEB3c2VpLnBsIiwiaWF0IjoxNzY1NjI5ODY5LCJleHAiOjE3NjU2MzM0Njl9.xJ9FkFNbu-NGEH-1LeS9i_2BYv6A_V_ai61FoAnCYEM
+
+
+{
+  "title": "Władca Pierścieni",
+  "author": "J.R.R. Tolkien",
+  "year": 1954
+}
+
+
+### TESTY 
+
+### 1. Bez tokenu: Dodanie książki
+# Spodziewany wynik: 401 Unauthorized
+POST http://localhost:3001/api/books
+Content-Type: application/json
+
+{
+  "title": "Książka Hakerska",
+  "author": "Haker",
+  "year": 2025
+}
+
+### 2. Zły token : Dodanie książki
+# Spodziewany wynik: 403 Forbidden 
+POST http://localhost:3001/api/books
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIsImVtYWlsIjoiaGFja2VyQGFrYWRlbWlhLnBsIiwiaWF0IjoxNzA0MDY3MjAwLCJleHAiOjE3MDQzNjcyMDB9.Zle_haslo_i_inny_podpis
+
+{
+  "title": "zła książka",
+  "author": "Oszust",
+  "year": 2025
+}
+
+### 3. bez tokenu: Usunięcie zamówienia
+# Spodziewany wynik: 401 Unauthorized
+DELETE http://localhost:3002/api/orders/1
+
+
+### LEGALNE UŻYCIE
+
+### 1. Logowanie aby uzyskać token
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "email": "student@wsei.pl",
+  "password": "moje_tajne_haslo"
+}
+
+### 2: Z tokenem: dodanie ksiązki
+POST http://localhost:3001/api/books
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoic3R1ZGVudEB3c2VpLnBsIiwiaWF0IjoxNzY1ODA5MDIwLCJleHAiOjE3NjU4MTI2MjB9.yrWA7vAwDtXTJcyICbzAswgWD6QX0bSGWOSifpWHibU
+
+{
+  "title": "Władca Pierścieni: Powrót Króla",
+  "author": "J.R.R. Tolkien",
+  "year": 1955
+}
+
+### 3: Z tokenem: złożenie zamówienia
+POST http://localhost:3002/api/orders
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoic3R1ZGVudEB3c2VpLnBsIiwiaWF0IjoxNzY1ODA5MDIwLCJleHAiOjE3NjU4MTI2MjB9.yrWA7vAwDtXTJcyICbzAswgWD6QX0bSGWOSifpWHibU
+
+{
+  "userId": 1,
+  "bookId":10,
+  "quantity": 5
+}
+
+### SERWIS 2: ZAMÓWIENIA (PATCH - Aktualizacja)
+
+### 4. Z tokenem: Aktualizacja ilości w zamówieniu (PATCH)
+PATCH http://localhost:3002/api/orders/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoic3R1ZGVudEB3c2VpLnBsIiwiaWF0IjoxNzY1Nzk4MDAxLCJleHAiOjE3NjU4MDE2MDF9.5kQfwLjsNP_7z9S6RMfaqKEMQHefx3MPH3tvDCfQ8nU
+
+{
+  "quantity": 50
+}
+
+### 5. Z tokenem: Próba aktualizacji nieistniejącego zamówienia
+# Spodziewany wynik: 404 Not Found
+PATCH http://localhost:3002/api/orders/9999
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoic3R1ZGVudEB3c2VpLnBsIiwiaWF0IjoxNzY1Nzk4MDAxLCJleHAiOjE3NjU4MDE2MDF9.5kQfwLjsNP_7z9S6RMfaqKEMQHefx3MPH3tvDCfQ8nU
+
+{
+  "quantity": 10
+}
+
+
+### SERWIS 2: ZAMÓWIENIA (DELETE - Poprawne usunięcie)
+
+### 6. Z tokenem:usunięcie zamówienia
+# Usuwamy zamówienie, które stworzyliśmy wcześniej
+DELETE http://localhost:3002/api/orders/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoic3R1ZGVudEB3c2VpLnBsIiwiaWF0IjoxNzY1Nzk4MDAxLCJleHAiOjE3NjU4MDE2MDF9.5kQfwLjsNP_7z9S6RMfaqKEMQHefx3MPH3tvDCfQ8nU
+
+### 7. Sprawdzenie czy zamówienie zniknęło
+# Spodziewany wynik: Pusta lista lub brak tego konkretnego ID
+GET http://localhost:3002/api/orders/1
+
+
+
+### SERWIS 1: KSIĄŻKI (DELETE - Poprawne usunięcie)
+
+### 8. Z tokenem: Skuteczne usunięcie książki
+# Usuwamy np. książkę o ID 1
+DELETE http://localhost:3001/api/books/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImVtYWlsIjoic3R1ZGVudEB3c2VpLnBsIiwiaWF0IjoxNzY1Nzk4MDAxLCJleHAiOjE3NjU4MDE2MDF9.5kQfwLjsNP_7z9S6RMfaqKEMQHefx3MPH3tvDCfQ8nU
+
+### 9. czy książka zniknęła
+# Spodziewany wynik: 404 Not Found
+GET http://localhost:3001/api/books/1
+
+
+
+### SERWIS 3: UŻYTKOWNICY (Błędy i Walidacja)
+
+### 10. Rejestracja duplikatu (ten sam email)
+# Spodziewany wynik: 400 User already exists
+POST http://localhost:3003/api/register
+Content-Type: application/json
+
+{
+  "email": "student@wsei.pl",
+  "password": "inne_haslo"
+}
+
+### 11. Logowanie z błędnym hasłem
+# Spodziewany wynik: 401 Invalid email or password
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "email": "student@wsei.pl",
+  "password": "zle_haslo_123"
+}
+
+### 12. Logowanie nieistniejącego użytkownika
+# Spodziewany wynik: 401 Invalid email or password
+POST http://localhost:3003/api/login
+Content-Type: application/json
+
+{
+  "email": "duch@wsei.pl",
+  "password": "haslo"
+}
